@@ -43,6 +43,27 @@ public void clearAllTasks() {
     }
 }
 
+//export tasks to file using bufferedwriter
+public void exportTasksToTextFile() {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("tasks.txt"))) {
+        if (tasks.isEmpty()) {
+            writer.write("No tasks to display.");
+        } else {
+            int count = 1;
+            for (Task task : tasks) {
+                writer.write(count++ + ". " + task.toFormattedString());
+                writer.newLine();
+                writer.write("------------------------");
+                writer.newLine();
+            }
+        }
+        System.out.println("Tasks exported to tasks.txt successfully.");
+    } catch (IOException e) {
+        System.out.println("Error writing to file: " + e.getMessage());
+    }
+}
+
+
     //filter tasks  (filterType- priority,status....values-high/medium/low, completed/incomplete)
     public void filterTasks(String filterType,String value){
           if(filterType.equalsIgnoreCase("dueDate")){

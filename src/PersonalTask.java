@@ -10,6 +10,11 @@ public class PersonalTask extends Task {
     }
 
     @Override
+public String toFormattedString() {
+    return (super.toFormattedString() + "\nOccasion: " + category);
+}
+
+    @Override
     public void displayTask() {
         super.displayTask();
         System.out.println("Category: " + category);

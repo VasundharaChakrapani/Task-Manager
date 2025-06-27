@@ -46,6 +46,14 @@ public class Task implements Serializable {
         this.isCompleted = true;
     }
 
+    //format to save tasks to file
+    public String toFormattedString() {
+    return "Task: " + name + "\nDue: " + dueDate +
+           "\nPriority: " + priority + 
+           "\nStatus: " + (isCompleted ? "Completed" : "Pending");
+}
+
+
     // Display task
     public void displayTask() {
         String status = isCompleted ? "Done" : "Pending";

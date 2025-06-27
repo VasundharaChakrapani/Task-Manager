@@ -8,6 +8,10 @@ public class WorkTask extends Task {
         this.project = project;
     }
 
+    public String toFormattedString() {
+    return super.toFormattedString() + "\nProject: " + project;
+}
+
     @Override
     public void displayTask() {
         super.displayTask();
