@@ -19,4 +19,9 @@ public String toFormattedString() {
         super.displayTask();
         System.out.println("Category: " + category);
     }
+
+    public String getOccasion(){
+        return category;
+    }
 }
+

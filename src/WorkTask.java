@@ -11,6 +11,9 @@ public class WorkTask extends Task {
     public String toFormattedString() {
     return super.toFormattedString() + "\nProject: " + project;
 }
+    public String getProject(){
+        return project;
+    }
 
     @Override
     public void displayTask() {

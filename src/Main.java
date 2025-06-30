@@ -18,7 +18,9 @@ public class Main {
             System.out.println("6. filter based on priority ,status or due date");
             System.out.println("7.clear all tasks");
             System.out.println("8. search task by name");
-            System.out.println("9. save tasks to file ");
+            System.out.println("9. save tasks to .txt file ");
+            System.out.println("10. save tasks to .csv file ");
+            System.out.println("11.import tasks from .csv files!");
             System.out.print("Choose an option: ");
 
             int choice = -1;
@@ -111,14 +113,25 @@ public class Main {
     case 7:
     taskManager.clearAllTasks();
     break;
+
     case 8:
      System.out.print("Enter keyword to search: ");
     String keyword = scanner.nextLine();
     taskManager.searchTasksByName(keyword);
     break;
+
     case 9:
     taskManager.exportTasksToTextFile();
     break;
+
+    case 10:
+    taskManager.exportTasksToCSV();
+    break;
+
+    case 11:
+      taskManager.importTasksFromCSV();
+    break;
+
 
                 default:
 

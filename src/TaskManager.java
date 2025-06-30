@@ -7,7 +7,7 @@ class TaskManger{
       loadTasksFromFile("tasks.dat");
     }
 
-    //save tasks into file
+    //save tasks into file (serialization- save data)
     
     public void saveTasksToFile(String filename) {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
@@ -18,7 +18,7 @@ class TaskManger{
     }
 }
 
-     //load tasks into arraylist tasks
+     //load tasks into arraylist tasks (saved data)
      @SuppressWarnings("unchecked")// gives an error if uk the type of data(<list> tasks ) ur converting to..if they are the same data time u loaded as before)
 
      public void loadTasksFromFile(String filename) {
@@ -43,7 +43,7 @@ public void clearAllTasks() {
     }
 }
 
-//export tasks to file using bufferedwriter
+//export tasks to .txt file using bufferedwriter
 public void exportTasksToTextFile() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("tasks.txt"))) {
         if (tasks.isEmpty()) {
@@ -62,6 +62,89 @@ public void exportTasksToTextFile() {
         System.out.println("Error writing to file: " + e.getMessage());
     }
 }
+
+
+//export tasks to .CSV file
+public void exportTasksToCSV() {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("tasks.csv"))) {
+        // Write CSV header
+        writer.write("Type,Name,DueDate,Priority,Status,Extra");
+        writer.newLine();
+
+        for (Task task : tasks) {
+            String type = task instanceof WorkTask ? "Work" :
+                          task instanceof PersonalTask ? "Personal" : "Generic";
+            String extra = "";
+
+            if (task instanceof WorkTask) {
+                extra = ((WorkTask) task).getProject();
+            } else if (task instanceof PersonalTask) {
+                extra = ((PersonalTask) task).getOccasion();
+            }
+
+            String line = String.format("%s,%s,%s,%s,%s,%s",
+                    type,
+                    task.getName(),
+                    task.getDueDate(),
+                    task.getPriority(),
+                    task.isCompleted() ? "Completed" : "Pending",
+                    extra);
+
+            writer.write(line);
+            writer.newLine();
+        }
+
+        System.out.println("Tasks exported to tasks.csv successfully.");
+    } catch (IOException e) {
+        System.out.println("Error exporting to CSV: " + e.getMessage());
+    }
+}
+
+
+
+//import tasks into csv files
+public void importTasksFromCSV() {
+    String fileName = "tasks.csv";
+    int importedCount = 0;
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line = reader.readLine(); // Skip header
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",", -1); // -1 keeps empty strings
+            if (parts.length >= 6) {
+                String type = parts[0].trim();
+                String name = parts[1].trim();
+                String dueDate = parts[2].trim();
+                String priority = parts[3].trim();
+                String status = parts[4].trim();
+                String extra = parts[5].trim();
+
+                Task task;
+
+                if (type.equalsIgnoreCase("Work")) {
+                    task = new WorkTask(name, dueDate, priority, extra);
+                } else if (type.equalsIgnoreCase("Personal")) {
+                    task = new PersonalTask(name, dueDate, priority, extra);
+                } else {
+                    task = new Task(name, dueDate, priority);
+                }
+
+                if (status.equalsIgnoreCase("Completed")) {
+                    task.markAsCompleted();
+                }
+
+                tasks.add(task);
+                importedCount++;
+            }
+        }
+        saveTasksToFile("tasks.dat"); // Save to tasks.dat
+        System.out.println(importedCount + " tasks imported from CSV.");
+    } catch (IOException e) {
+        System.out.println("Error reading CSV file: " + e.getMessage());
+    }
+}
+
+
 
 
     //filter tasks  (filterType- priority,status....values-high/medium/low, completed/incomplete)
