@@ -14,6 +14,9 @@ public class WorkTask extends Task {
     public String getProject(){
         return project;
     }
+    public void setProject(String project){
+        this.project=project;
+    }
 
     @Override
     public void displayTask() {

@@ -1,11 +1,21 @@
 import java.util.*;
 import java.io.*;
+import java.time.LocalDate;
+
+
 class TaskManger{
     private ArrayList<Task> tasks;
     public TaskManger(){
       tasks=  new ArrayList<>();
       loadTasksFromFile("tasks.dat");
     }
+
+
+    //check id tasks r thr
+    public boolean hasTasks() {
+    return !tasks.isEmpty();
+}
+
 
     //save tasks into file (serialization- save data)
     
@@ -195,6 +205,69 @@ public void importTasksFromCSV() {
         System.out.println("task added successfully");
     }
 
+ //edit task
+    public void editTask(int index, Scanner scanner) {
+    if (index < 0 || index >= tasks.size()) {
+        System.out.println(tasks.size());
+        System.out.println("Invalid task index.");
+        return;
+    }
+
+    Task task = tasks.get(index);
+    System.out.println("Editing Task:");
+    task.displayTask();
+
+    System.out.println("\n--- Leave input blank to keep the current value ---");
+
+    // Name
+    String newName = InputValidator.getValidName(scanner, true);
+    if (!newName.isEmpty()) {
+        task.setName(newName);
+    }
+
+    // Due Date
+    String newDueDate = InputValidator.getValidDueDate(scanner, true);
+    if (!newDueDate.isEmpty()) {
+        try {
+            task.setDueDate(LocalDate.parse(newDueDate));
+        } catch (Exception e) {
+            System.out.println("Invalid date format. Keeping original.");
+        }
+    }
+
+    // Priority
+    String newPriority = InputValidator.getValidPriority(scanner, true);
+    if (!newPriority.isEmpty()) {
+        task.setPriority(newPriority.toUpperCase());
+    }
+
+    // Status
+ String newStatus = InputValidator.getValidStatus(scanner, true);
+if (!newStatus.isEmpty()) {
+    task.setisCompleted(newStatus.equalsIgnoreCase("COMPLETED"));
+}
+
+
+    // WorkTask: edit project name
+    if (task instanceof WorkTask) {
+        String newProject = InputValidator.getValidNote(scanner, true);
+        if (!newProject.isEmpty()) {
+            ((WorkTask) task).setProject(newProject);
+        }
+    }
+
+    // PersonalTask: edit note
+    if (task instanceof PersonalTask) {
+        String newNote = InputValidator.getValidNote(scanner, true);
+        if (!newNote.isEmpty()) {
+            ((PersonalTask) task).setOccasion(newStatus);
+        }
+    }
+
+    System.out.println("\n✅ Task updated successfully.");
+}
+
+
     //view tasks
     public  void viewTasks(){
         if(tasks.isEmpty()){
@@ -204,6 +277,7 @@ public void importTasksFromCSV() {
         for(int i=0;i<tasks.size();i++){
             System.out.print((i+1)+".");
             tasks.get(i).displayTask();
+            System.out.println();
         }
     }
 

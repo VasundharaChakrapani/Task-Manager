@@ -23,5 +23,8 @@ public String toFormattedString() {
     public String getOccasion(){
         return category;
     }
+     public void setOccasion(String category){
+        this.category=category;
+     }
 }
 

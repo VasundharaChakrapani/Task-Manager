@@ -29,6 +29,7 @@ public class Task implements Serializable {
         return dueDate;
     }
 
+
     public LocalDate getDueDateAsDate() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     return LocalDate.parse(dueDate, formatter);
@@ -38,9 +39,29 @@ public class Task implements Serializable {
         return priority;
     }
 
+    // setters
+
+    public void setName(String name) {
+    this.name = name;
+}
+
+public void setDueDate(LocalDate date) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    this.dueDate = date.format(formatter);
+}
+
+
+  public void setPriority(String priority) {
+    this.priority = priority;
+}
+
     public boolean isCompleted() {
         return isCompleted;
     }
+
+      public void setisCompleted(boolean isCompleted) {
+    this.isCompleted = isCompleted;
+}
 
     public void markAsCompleted() {
         this.isCompleted = true;

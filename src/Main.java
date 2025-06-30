@@ -7,6 +7,7 @@ public class Main {
         String filename = "tasks.dat";
             taskManager.loadTasksFromFile(filename);
 
+
         while (true) {
             System.out.println("\n== Task Manager ==");
             
@@ -21,7 +22,9 @@ public class Main {
             System.out.println("9. save tasks to .txt file ");
             System.out.println("10. save tasks to .csv file ");
             System.out.println("11.import tasks from .csv files!");
+            System.out.println("12.edit tasks");
             System.out.print("Choose an option: ");
+            System.out.println();
 
             int choice = -1;
 
@@ -36,9 +39,9 @@ public class Main {
                 case 1:
                     System.out.print("Choose Task Type:\n1. Work Task\n2. Personal Task:  \n 3.or jus general stuff ");
                     int type = scanner.nextInt();
-                     String name = InputValidator.getValidName(scanner);
-                     String dueDate = InputValidator.getValidDueDate(scanner);
-                     String priority = InputValidator.getValidPriority(scanner);
+                     String name = InputValidator.getValidName(scanner,false);
+                     String dueDate = InputValidator.getValidDueDate(scanner,false);
+                     String priority = InputValidator.getValidPriority(scanner,false);
                      Task task = null;
 
     if (type==1) {
@@ -130,6 +133,31 @@ public class Main {
 
     case 11:
       taskManager.importTasksFromCSV();
+    break;
+
+    case 12:
+    
+    if (!taskManager.hasTasks()) {
+        System.out.println("No tasks to edit.");
+        break;
+    }
+
+    // Display all tasks with indexes
+    taskManager.viewTasks();
+
+    System.out.print("Enter the task no  to edit: ");
+    String input = scanner.nextLine().trim();
+
+    try {
+        int index = Integer.parseInt(input);
+        index=index-1;
+        taskManager.editTask(index, scanner);  // internally handles blank input using allowBlank = true
+        taskManager.saveTasksToFile("tasks.dat");               // Save changes after editing
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input. Please enter a number.");
+    } catch (IndexOutOfBoundsException e) {
+        System.out.println("Invalid index. No such task.");
+    }
     break;
 
 
