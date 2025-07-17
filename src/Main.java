@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         TaskManger taskManager = new TaskManger();
+        // CommandHandler handler=new CommandHandler(taskManager);
         String filename = "tasks.dat";
             taskManager.loadTasksFromFile(filename);
 
@@ -25,6 +26,8 @@ public class Main {
             System.out.println("12.edit tasks");
             System.out.print("Choose an option: ");
             System.out.println();
+            //String choice=scanner.nextLine();
+           
 
             int choice = -1;
 

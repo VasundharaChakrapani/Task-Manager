@@ -10,6 +10,10 @@ class TaskManger{
       loadTasksFromFile("tasks.dat");
     }
 
+    public int getTaskCount(){
+        return tasks.size();
+    }
+
 
     //check id tasks r thr
     public boolean hasTasks() {
@@ -199,11 +203,14 @@ public void importTasksFromCSV() {
 
 
   //add task
+
     public void addTask(Task task){
         
         tasks.add(task);
         System.out.println("task added successfully");
     }
+
+
 
  //edit task
     public void editTask(int index, Scanner scanner) {
@@ -291,7 +298,7 @@ if (!newStatus.isEmpty()) {
         }
     }
 
-    // Delete a task
+
     public void deleteTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             tasks.remove(index);
@@ -300,6 +307,8 @@ if (!newStatus.isEmpty()) {
             System.out.println("Invalid task number.");
         }
     }
+
+    
 }
 
 
